@@ -9,14 +9,14 @@
     "rich-text"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/HalfDozen/n8n-nodes-notion-rich-text-splitter",
+  "homepage": "https://github.com/createsomethingtoday/n8n-nodes-notion-rich-text-splitter",
   "author": {
     "name": "Create Something",
     "email": "micah@createsomething.io"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HalfDozen/n8n-nodes-notion-rich-text-splitter.git"
+    "url": "git+https://github.com/createsomethingtoday/n8n-nodes-notion-rich-text-splitter.git"
   },
   "main": "index.js",
   "scripts": {

@@ -38,7 +38,7 @@ n8n start
 
 ```bash
 # Clone the repository
-git clone https://github.com/HalfDozen/n8n-nodes-notion-rich-text-splitter.git
+git clone https://github.com/createsomethingtoday/n8n-nodes-notion-rich-text-splitter.git
 cd n8n-nodes-notion-rich-text-splitter
 
 # Install dependencies
@@ -294,7 +294,7 @@ Contributions are welcome! Please:
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/HalfDozen/n8n-nodes-notion-rich-text-splitter/issues)
+- **Issues**: [GitHub Issues](https://github.com/createsomethingtoday/n8n-nodes-notion-rich-text-splitter/issues)
 - **n8n Community**: [n8n Community Forum](https://community.n8n.io)
 - **Documentation**: [n8n Notion Integration](https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.notion/)
 
