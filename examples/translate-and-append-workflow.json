@@ -1,0 +1,135 @@
+{
+  "name": "Translate and Append to Notion",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "translate-notion",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-node",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "authentication": "credentials",
+        "text": "={{ $json.text }}",
+        "translateTo": "={{ $json.targetLang }}"
+      },
+      "id": "deepl-node",
+      "name": "DeepL",
+      "type": "n8n-nodes-base.deepL",
+      "typeVersion": 1,
+      "position": [450, 300],
+      "credentials": {
+        "deepLApi": {
+          "id": "1",
+          "name": "DeepL API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Format DeepL translation output as Notion rich text\nconst translatedText = $input.item.json.translations[0].text;\n\nreturn {\n  json: {\n    pageId: $('Webhook').item.json.pageId,\n    richText: [\n      {\n        type: 'text',\n        text: { \n          content: translatedText,\n          link: null\n        },\n        annotations: {\n          bold: false,\n          italic: false,\n          strikethrough: false,\n          underline: false,\n          code: false,\n          color: 'default'\n        }\n      }\n    ]\n  }\n};"
+      },
+      "id": "code-node",
+      "name": "Format Rich Text",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "operation": "appendRichText",
+        "pageId": "={{ $json.pageId }}",
+        "richText": "={{ JSON.stringify($json.richText) }}",
+        "maxChars": 1900,
+        "blockType": "paragraph",
+        "batchSize": 100,
+        "additionalFields": {
+          "delayMs": 300
+        }
+      },
+      "id": "notion-splitter-node",
+      "name": "Notion Rich Text Splitter",
+      "type": "n8n-nodes-notion-rich-text-splitter.notionRichTextSplitter",
+      "typeVersion": 1,
+      "position": [850, 300],
+      "credentials": {
+        "notionApi": {
+          "id": "1",
+          "name": "Notion API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}"
+      },
+      "id": "respond-node",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "DeepL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepL": {
+      "main": [
+        [
+          {
+            "node": "Format Rich Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Rich Text": {
+      "main": [
+        [
+          {
+            "node": "Notion Rich Text Splitter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion Rich Text Splitter": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-01-15T12:00:00.000Z",
+  "versionId": "1"
+}

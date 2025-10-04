@@ -1,0 +1,40 @@
+[
+  {
+    "name": "High Failure Rate",
+    "condition": {
+      "metric": "failure_rate",
+      "operator": "gt",
+      "threshold": 0.2,
+      "timeWindowMinutes": 60
+    },
+    "severity": "high",
+    "channels": [
+      {
+        "type": "console",
+        "config": {}
+      }
+    ],
+    "enabled": true,
+    "cooldownMinutes": 30,
+    "id": "rule_1759545643908_zg4kn"
+  },
+  {
+    "name": "Slow Execution",
+    "condition": {
+      "metric": "duration",
+      "operator": "gt",
+      "threshold": 300000,
+      "timeWindowMinutes": 30
+    },
+    "severity": "medium",
+    "channels": [
+      {
+        "type": "console",
+        "config": {}
+      }
+    ],
+    "enabled": true,
+    "cooldownMinutes": 15,
+    "id": "rule_1759545643908_7r5p9"
+  }
+]
